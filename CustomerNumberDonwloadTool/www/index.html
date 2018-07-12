@@ -1,0 +1,128 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="plugins/layui/css/layui.css">
+    <link rel="stylesheet" href="plugins/metismenu/metisMenu.css">
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/index.css">
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="plugins/layui/layui.js"></script>
+    <script type="text/javascript" src="plugins/metismenu/metisMenu.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="sidebar-nav">
+            <div class="device">
+                <img src="images/device1.png" class="img-device" title="设置">
+            </div>
+            <ul class="metismenu" id="menu">
+                <li>
+                    <a id="navcardnumber" href="#">
+                         <span class="fa fa-drivers-license"></span>
+                    </a>
+                </li>
+                <li>
+                    <a id="navclientnumber" href="#">
+                        <span class="fa fa-list-ol"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="main">
+        <div id="cardnumber_group">
+            <div class="center-group">
+                <form action="" class="layui-form layui-form-pane">
+                    <div class="layui-form-item">
+                       <label for="" class="layui-form-label">旧卡片内码</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="oldnumber" maxlength="6" required lay-verify="len6" lay-filter="oldnumber" placeholder="当前旧卡片内码" value="123456" disabled>                            
+                        </div> 
+                        <input type="checkbox" name="" title="默认" lay-filter="defaultoldnumber" checked>
+                    </div>
+                    <div class="layui-form-item">
+                       <label for="" class="layui-form-label">新卡片内码</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="cardnumber" maxlength="6" required lay-verify="len6" lay-filter="cardnumber" placeholder="请输入新卡片内码" disabled>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">卡片类型</label>
+                        <div class="layui-input-block">
+                            <select name="" id="cardtype" lay-filter="cardtype" disabled>
+                                <option value="01">单卡</option>
+                                <option value="02">人卡（组合卡）</option>
+                                <option value="03">车卡</option>
+                                <option value="70">挂失卡</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <button class="layui-btn layui-btn-fluid layui-btn-disabled" lay-submit="" lay-filter="btncardnumber" id="btncardnumber" disabled>确认</button>
+                    </div>
+                </form>
+                <div class="txt-group">
+                   <i class="fa fa-close"></i>
+                    <label id="txt" >123456</label>
+                </div>
+            </div>
+        </div>
+        <div id="clientnumber_group" style="display: none">
+            <div class="layui-header header layui-bg-blue">
+                <div class="func-group">
+                    <button class="layui-btn layui-btn-disabled" id="btnrefresh" disabled>刷新</button>
+                    <form action="" class="layui-form layui-input-inline">
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" maxlength="4" lay-verify="len|number" placeholder="客户编号（4位数字）" id="clientnumber" disabled>
+                        </div>
+                        <button class="layui-btn layui-btn-disabled" lay-submit="" lay-filter="btndownload" id="btndownload" disabled>写入客户编号(卡片）</button>
+                        <button class="layui-btn layui-btn-disabled" lay-submit="" lay-filter="btnclientnumber" id="btnclientnumber" disabled>设置编号（发行器）</button>
+                    </form>
+                </div>
+            </div>
+            <div class="table-container">
+                <table class="layui-table" lay-data="{id:'datatable',page:false,limit:1000,height:'full-85'}">
+                    <thead>
+                        <tr>
+                            <th lay-data="{type:'numbers',width:100}">#</th>
+                            <th lay-data="{field:'CardNumber',unresize:true}">卡片内码</th>
+                            <th lay-data="{field:'State',unresize:true,width:100}">状态</th>
+                            <th lay-data="{field:'DataType',unresize:true,wdth:400}">类型</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+<div id="setting" class="dialog-container" style="display: none">
+    <form action="" class="layui-form">
+        <div class="layui-form-item"></div>
+        <div class="layui-form-item">
+            <label for="" class="layui-form-label">连接方式</label>
+            <div class="layui-input-inline">
+                <select lay-filter="state" id="select_state">
+                    <option value="0">自动连接</option>
+                    <option value="1">手动连接</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">端口号</label>
+            <div class="layui-input-inline">
+                <select name="" lay-verify="required" id="select_port" disabled></select>
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn layui-btn-disabled" lay-submit="" lay-filter="btndevice" id="btndevice" disabled>打开</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+</html>
