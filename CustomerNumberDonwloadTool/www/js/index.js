@@ -1,20 +1,20 @@
- var form, $, table; 
+ var form, $, table;
  var recordcardnumber = "";
 
  $(function () {
 
-     $("#menu").metisMenu();
+     //  $("#menu").metisMenu();
 
      $(".img-device").click(function () {
          layer.open({
              type: 1,
-             area: "400px",
+             area: '400px',
              title: "设置",
              closeBtn: 2,
              move: false,
              content: $("#setting"),
          });
-     })
+     });
 
      $("#btnrefresh").click(function () {
          table.reload("datatable", {
@@ -22,17 +22,17 @@
          });
          var ret = RefreshClick();
          FuncBtnChange(ret);
-     })
-     
-     $("#oldnumber").keypress(function(e){
-        return TxtKeypress(e);
-     })
-     
+     });
+
+     $("#oldnumber").keypress(function (e) {
+         return TxtKeypress(e);
+     });
+
      $("#cardnumber").keypress(function (e) {
          return TxtKeypress(e);
-     })
-     
-     function TxtKeypress(e){
+     });
+
+     function TxtKeypress(e) {
          var regex = /[a-fA-F0-9]/;
          var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
          if (!regex.test(key)) {
@@ -41,37 +41,46 @@
          return true;
      }
 
+     $('.menu-item').click(function (data) {
+         var elem = $(this);
+         var active = $('.menu-item.active');
+         if (elem != active) {
+             active.removeClass('active');
+             elem.addClass('active');
+         }
+     })
+
+     $('.menu-item').mouseover(function (data) {
+         $(this).find('.menu-item-tip').show();
+     })
+
+     $('.menu-item').mouseout(function (data) {
+         $(this).find('.menu-item-tip').hide();
+     })
+
      $("#navcardnumber").click(function () {
          $("#cardnumber_group").css("display", "block");
          $("#clientnumber_group").css("display", "none");
-     })
-
-     $("#navcardnumber").mouseenter(function () {
-         layer.tips("卡片内码", "#navcardnumber");
-     })
+     });
 
      $("#navclientnumber").click(function () {
          $("#clientnumber_group").css("display", "block");
          $("#cardnumber_group").css("display", "none");
-     })
+     });
 
-     $("#navclientnumber").mouseenter(function () {
-         layer.tips("客户编号", "#navclientnumber");
-     })
-
- })
+ });
 
  $(document).keyup(function (event) {
 
      if (event.keyCode == 13 || event.keyCode == 32) { //enter
-          var elem = $("#cardnumber_group:visible #btncardnumber:enabled");
-          if (elem.length > 0) {
-              $("#btncardnumber").trigger("click");
-          }
+         var elem = $("#cardnumber_group:visible #btncardnumber:enabled");
+         if (elem.length > 0) {
+             $("#btncardnumber").trigger("click");
+         }
      } else if (event.keyCode == 123) { //F12
          ShowDevTools();
      }
- })
+ });
 
 
  layui.use(['layer', 'table', 'form'], function () {
@@ -86,11 +95,11 @@
              }
          },
          len6: function (value) {
-             if (value < 6) {
-                 return "卡片内码长度不正确（6 位数字）。"
+             if (value.length < 6) {
+                 return "卡片内码长度不正确（6 位数字）。";
              }
          }
-     })
+     });
 
 
      form.on("checkbox(defaultoldnumber)", function (data) {
@@ -100,7 +109,7 @@
          }
          $("#oldnumber").val(strDefault);
          $("#oldnumber").attr("disabled", data.elem.checked);
-     })
+     });
 
      form.on("submit(btndownload)", function () {
          var count = table.cache.datatable.length;
@@ -111,10 +120,13 @@
 
          FuncBtnChange(true);
          var number = $("#clientnumber").val();
-         DownloadClick(number);
+         var count = DownloadClick(number);
+         if(count == 0){
+            NewsMessage("没有可以下载编号的定距卡，请检测类型是否正常");
+         }
 
          return false;
-     })
+     });
 
      form.on("submit(btnclientnumber)", function () {
          FuncBtnChange(true);
@@ -127,30 +139,30 @@
          }
 
          return false;
-     })
+     });
 
      form.on("submit(btncardnumber)", function () {
          var oldnumber = $("#oldnumber").val();
          var number = $("#cardnumber").val();
          var type = $("#cardtype").val();
-         var ret = SetCardNumber(oldnumber, number,type);
+         var ret = SetCardNumber(oldnumber, number, type);
          FuncBtnChange(ret);
          return false;
-     })
-     
-    form.on("select(cardtype)",function(data){
-        var ret = data.value == "70";
-        if(ret){
-            recordcardnumber = $("#cardnumber").val();
-            $("#cardnumber").val("797979");
-        }else{
-            if(recordcardnumber.length > 0){
-                $("#cardnumber").val(recordcardnumber);
-            }
-        }
-        $("#cardnumber").attr("disabled",ret);
-    })
-     
+     });
+
+     form.on("select(cardtype)", function (data) {
+         var ret = data.value == "70";
+         if (ret) {
+             recordcardnumber = $("#cardnumber").val();
+             $("#cardnumber").val("797979");
+         } else {
+             if (recordcardnumber.length > 0) {
+                 $("#cardnumber").val(recordcardnumber);
+             }
+         }
+         $("#cardnumber").attr("disabled", ret);
+     });
+
      form.on("select(state)", function (data) {
          var ret = data.value == "0";
          ChangeConnectionState(ret);
@@ -166,7 +178,7 @@
              }
          }
          form.render();
-     })
+     });
 
      form.on("submit(btndevice)", function () {
          var port = $("#select_port").val();
@@ -174,9 +186,9 @@
          DeviceBtnChange(ret);
          SerialMessage(ret, port);
          return false;
-     })
+     });
 
- })
+ });
 
  function EndMessage(state) {
      var ret = Boolean(state);
@@ -202,8 +214,8 @@
 
  function IncrementingNumber() {
      var type = $("#cardtype").val();
-     if(type == "70") return;
-     
+     if (type == "70") return;
+
      var strNumber = $("#cardnumber").val();
      var number = parseInt(strNumber, 16);
      number += 1;
@@ -226,7 +238,7 @@
          icon: 0,
          content: msg,
          btn: ['关闭'],
-     })
+     });
  }
 
  function NewsMessage(msg) {
@@ -255,7 +267,7 @@
 
  function SerialChange(serial) {
      var jsonObj = JSON.parse(serial);
-     var open = jsonObj["IsOpen"];
+     var open = jsonObj['IsOpen'];
      if (open) {
          var portName = jsonObj["PortName"];
          $("#select_port").val(portName);
@@ -304,8 +316,8 @@
      $("#btncardnumber").attr("disabled", state);
      $("#clientnumber").attr("disabled", state);
      $("#cardtype").attr("disabled", state);
-     if($("#cardtype").val() != "70"){
-        $("#cardnumber").attr("disabled", state);
+     if ($("#cardtype").val() != "70") {
+         $("#cardnumber").attr("disabled", state);
      }
      if (!state) {
          $("#btnrefresh").removeClass("layui-btn-disabled");

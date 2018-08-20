@@ -2,6 +2,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace CustomerNumberDonwloadTool
 {
@@ -94,6 +95,12 @@ namespace CustomerNumberDonwloadTool
 
             GlobalObject.AddFunction("DownloadClick").Execute += (func, args) =>
             {
+                int count = DataManager.Params.Where(e => e.State != "设置成功" && e.DataType == "正常").Count();
+                if (count == 0)
+                {
+                    args.SetReturnValue(count);
+                    return;
+                }
                 this.RequireUIThread(() =>
                 {
                     string strClientNumber = args.Arguments[0].StringValue;
@@ -102,7 +109,7 @@ namespace CustomerNumberDonwloadTool
                     {
                         foreach (Param item in DataManager.Params)
                         {
-                            if (item.State == "未设置" && item.DataType == "正常")
+                            if (item.State != "设置成功" && item.DataType == "正常")
                             {
                                 string deal = PortAgreement.WriteClientNumber(item.CardNumber, strClientNumber);
                                 bool ret = SerialPortManager.Write(deal);
@@ -129,6 +136,7 @@ namespace CustomerNumberDonwloadTool
                         JavascriptEvent.OperationOver();
                     });
                 });
+                args.SetReturnValue(-1);
             };
 
             GlobalObject.AddFunction("SetDeviceClient").Execute += (func, args) =>
@@ -149,7 +157,7 @@ namespace CustomerNumberDonwloadTool
                     string strOldNumber = args.Arguments[0].StringValue;
                     string strCardNumber = args.Arguments[1].StringValue;
                     string strType = args.Arguments[2].StringValue;
-                    string deal = PortAgreement.WriteCardNumber(strOldNumber, strCardNumber,strType);
+                    string deal = PortAgreement.WriteCardNumber(strOldNumber, strCardNumber, strType);
                     bool ret = SerialPortManager.Write(deal);
                     if (ret)
                     {

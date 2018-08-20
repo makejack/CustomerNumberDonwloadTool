@@ -3,12 +3,12 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="plugins/layui/css/layui.css">
-    <link rel="stylesheet" href="plugins/metismenu/metisMenu.css">
+    <!-- <link rel="stylesheet" href="plugins/metismenu/metisMenu.css"> -->
     <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/index.css">
     <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="plugins/layui/layui.js"></script>
-    <script type="text/javascript" src="plugins/metismenu/metisMenu.js"></script>
+    <!-- <script type="text/javascript" src="plugins/metismenu/metisMenu.js"></script> -->
     <script type="text/javascript" src="js/index.js"></script>
 </head>
 
@@ -18,16 +18,18 @@
             <div class="device">
                 <img src="images/device1.png" class="img-device" title="设置">
             </div>
-            <ul class="metismenu" id="menu">
-                <li>
-                    <a id="navcardnumber" href="#">
-                         <span class="fa fa-drivers-license"></span>
+            <ul id="menu">
+                <li class="menu-item active" id="navcardnumber">
+                    <a href="#">
+                        <i class="fa fa-drivers-license"></i>
                     </a>
+                    <span class="menu-item-tip">编写内码</span>
                 </li>
-                <li>
-                    <a id="navclientnumber" href="#">
-                        <span class="fa fa-list-ol"></span>
+                <li class="menu-item" id="navclientnumber" >
+                    <a href="#">
+                        <i class="fa fa-list-ol"></i>
                     </a>
+                    <span class="menu-item-tip">下载编号</span>
                 </li>
             </ul>
         </div>
@@ -37,16 +39,18 @@
             <div class="center-group">
                 <form action="" class="layui-form layui-form-pane">
                     <div class="layui-form-item">
-                       <label for="" class="layui-form-label">旧卡片内码</label>
+                        <label for="" class="layui-form-label">旧卡片内码</label>
                         <div class="layui-input-inline">
-                            <input type="text" class="layui-input" id="oldnumber" maxlength="6" required lay-verify="len6" lay-filter="oldnumber" placeholder="当前旧卡片内码" value="123456" disabled>                            
-                        </div> 
+                            <input type="text" class="layui-input" id="oldnumber" maxlength="6" required lay-verify="len6" lay-filter="oldnumber" placeholder="当前旧卡片内码"
+                                value="123456" disabled>
+                        </div>
                         <input type="checkbox" name="" title="默认" lay-filter="defaultoldnumber" checked>
                     </div>
                     <div class="layui-form-item">
-                       <label for="" class="layui-form-label">新卡片内码</label>
+                        <label for="" class="layui-form-label">新卡片内码</label>
                         <div class="layui-input-block">
-                            <input type="text" class="layui-input" id="cardnumber" maxlength="6" required lay-verify="len6" lay-filter="cardnumber" placeholder="请输入新卡片内码" disabled>
+                            <input type="text" class="layui-input" id="cardnumber" maxlength="6" required lay-verify="len6" lay-filter="cardnumber" placeholder="请输入新卡片内码"
+                                disabled>
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -61,12 +65,13 @@
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <button class="layui-btn layui-btn-fluid layui-btn-disabled" lay-submit="" lay-filter="btncardnumber" id="btncardnumber" disabled>确认</button>
+                        <button class="layui-btn layui-btn-fluid layui-btn-disabled" lay-submit="" lay-filter="btncardnumber" id="btncardnumber"
+                            disabled>确认</button>
                     </div>
                 </form>
                 <div class="txt-group">
-                   <i class="fa fa-close"></i>
-                    <label id="txt" >123456</label>
+                    <i class="fa fa-close"></i>
+                    <label id="txt">123456</label>
                 </div>
             </div>
         </div>
